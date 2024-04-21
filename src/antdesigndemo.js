@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Modal, Card, DatePicker } from "antd";
-import "antd/dist/antd.css";
+import 'antd/dist/reset.css';
+
 
 const AntDesignDemo = () => {
   const [form] = Form.useForm();
@@ -24,7 +25,7 @@ const AntDesignDemo = () => {
 
   return (
     <div>
-      <h1>Ant Design Demo</h1>
+      <h1>Components</h1>
 
       <Form form={form} layout="vertical" onFinish={onFinish}>
         <Form.Item
