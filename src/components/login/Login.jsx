@@ -1,50 +1,87 @@
 import React, { useState } from "react";
 import "./Login.css";
 
+import { Button, Form, Input, Radio, Typography } from "antd";
+import Title from "antd/es/skeleton/Title";
+
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("signed in");
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [validationError, setValidationError] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
+
+  const handleSubmit = (e) => {
+    const errors = {};
+    if (!formData.username.trim()) {
+      errors.username = "Username is required";
+    } else if (formData.username.length === 0) {
+      errors.username = "not valid";
+    }
+    if (!formData.password.trim()) {
+      errors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      errors.password = "Password should be of atleast 6 characters";
+    }
+    setValidationError(errors);
+
+    if (Object.keys(errors).length === 0) {
+      console.log("form submitted");
+    }
+    setLoading(true);
+  };
+
   return (
     <div className="container">
-      {/* image */}
-      <div className="image-container">
-        <img className="img" src="./assets/LeftArt.png" />
-      </div>
       {/* form */}
-      <div className="form-container">
-        <form className="form-container" onSubmit={handleSubmit}>
-          <h1 className="heading">Sign In</h1>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            placeholder="Type username here"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <br />
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            placeholder="Type password here"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <br />
-          <input id="signed-in" type="radio" />
-          <label htmlFor="signed-in">Keep me signed in</label>
+      <div className="form">
+        <Form className="form-container" onFinish={handleSubmit}>
+          <Typography.Title className="heading">Sign In</Typography.Title>
+          <Form.Item label="Username" name="username">
+            <div>
+              <Input
+                name="username"
+                type="text"
+                placeholder="Type username here"
+                id="username"
+                value={formData.username}
+                onChange={handleChange}
+              />
+              {validationError.username && (
+                <span>{validationError.username}</span>
+              )}
+            </div>
+          </Form.Item>
+
+          <Form.Item label="password" name="password">
+            <div>
+              <Input
+                name="password"
+                type="password"
+                placeholder="Type password here"
+                id="password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              {validationError.password && (
+                <span>{validationError.password}</span>
+              )}
+            </div>
+          </Form.Item>
+
+          <Radio value="keep-signed">Keep me signed in</Radio>
 
           <span>Forgot password?</span>
           <br />
-          <button>Submit</button>
+          <Button block type="primary" htmlType="submit" id="button">
+            Submit
+          </Button>
           <br />
           <span>Register Now</span>
-        </form>
+        </Form>
       </div>
     </div>
   );
