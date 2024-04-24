@@ -5,17 +5,24 @@
   justify-content: center;
 }
 
-.form-login-container {
+.form-container {
   background-color: rgb(196, 184, 184);
-  width: 26rem;
-  height: 26rem;
+  width: 25rem;
+  height: 66rem;
   margin-top: 86px;
   padding: 2rem;
   border-radius: 8px;
 }
 
 #username,
-#password {
+#password,
+#firstName,
+#middleName,
+#lastName,
+#state,
+#district,
+#email,
+#contact {
   width: 20rem;
 }
 

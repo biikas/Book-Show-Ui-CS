@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Login.css";
 
 import { Button, Form, Input, Radio, Typography } from "antd";
-import Title from "antd/es/skeleton/Title";
 
 function Login() {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -10,27 +9,26 @@ function Login() {
   const [validationError, setValidationError] = useState({});
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
-    const errors = {};
-    if (!formData.username.trim()) {
-      errors.username = "Username is required";
-    } else if (formData.username.length === 0) {
-      errors.username = "not valid";
-    }
-    if (!formData.password.trim()) {
-      errors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      errors.password = "Password should be of atleast 6 characters";
-    }
-    setValidationError(errors);
-
-    if (Object.keys(errors).length === 0) {
-      console.log("form submitted");
-    }
+    // const errors = {};
+    // if (!formData.username.trim()) {
+    //   errors.username = "Username is required";
+    // } else if (formData.username.length === 0) {
+    //   errors.username = "not valid";
+    // }
+    // if (!formData.password.trim()) {
+    //   errors.password = "Password is required";
+    // } else if (formData.password.length < 6) {
+    //   errors.password = "Password should be of atleast 6 characters";
+    // }
+    // setValidationError(errors);
+    // if (Object.keys(errors).length === 0) {
+    //   console.log("form submitted");
+    // }
+    console.log("Form submitted");
     setLoading(true);
   };
 
@@ -38,29 +36,51 @@ function Login() {
     <div className="container">
       {/* form */}
       <div className="form">
-        <Form className="form-container" onFinish={handleSubmit}>
+        <Form
+          layout="vertical"
+          labelCol={{ span: 20 }}
+          wrapperCol={{ span: 20 }}
+          className="form-login-container"
+          onFinish={handleSubmit}
+          requiredMark={false}
+        >
           <Typography.Title className="heading">Sign In</Typography.Title>
-          <Form.Item label="Username" name="username">
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[
+              { required: true, message: "Please enter your username" },
+              { whitespace: true },
+              { min: 3 },
+              { type: "string" },
+            ]}
+            hasFeedback
+          >
             <div>
               <Input
                 name="username"
-                type="text"
                 placeholder="Type username here"
                 id="username"
                 value={formData.username}
                 onChange={handleChange}
               />
-              {validationError.username && (
-                <span>{validationError.username}</span>
-              )}
             </div>
           </Form.Item>
 
-          <Form.Item label="password" name="password">
+          <Form.Item
+            label="pasword"
+            name="password"
+            rules={[
+              { required: true, message: "Please enter your password" },
+              { whitespace: true },
+              { min: 6 },
+              { type: "string" },
+            ]}
+            hasFeedback
+          >
             <div>
-              <Input
+              <Input.Password
                 name="password"
-                type="password"
                 placeholder="Type password here"
                 id="password"
                 value={formData.password}
